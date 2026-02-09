@@ -23,7 +23,7 @@ pipeline {
 
         stage('Stage 3: Build Docker Image') {
             steps {
-                sh 'docker build -t abhashti/calculator-app:latest .'
+                sh 'docker build -t abhashti/calculator:latest .'
             }
         }
     }
