@@ -40,6 +40,14 @@ pipeline {
         }
     }
 }
+        stage('Stage 5: Cleanup Docker Images') {
+    steps {
+        sh '''
+        docker rmi abhashti/calculator:latest || true
+        '''
+    }
+}
+
 
     }
 }
