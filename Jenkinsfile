@@ -23,9 +23,7 @@ pipeline {
 
         stage('Stage 3: Build Docker Image') {
             steps {
-                script {
-                    docker_image = docker.build("abhashti/calculator:latest")
-                }
+                sh 'docker build -t abhashti/calculator-app:latest .'
             }
         }
     }
