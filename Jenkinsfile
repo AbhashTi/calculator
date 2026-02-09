@@ -26,6 +26,21 @@ pipeline {
                 sh 'docker build -t abhashti/calculator:latest .'
             }
         }
+        stage('Stage 4: Push Docker Image to Docker Hub') {
+    steps {
+        withCredentials([usernamePassword(
+            credentialsId: 'dockerhub-creds',
+            usernameVariable: 'DOCKER_USER',
+            passwordVariable: 'DOCKER_PASS'
+        )]) {
+            sh '''
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+            docker push abhashti/calculator:latest
+            '''
+        }
+    }
+}
+
     }
 }
 
