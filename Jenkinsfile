@@ -10,10 +10,16 @@ pipeline {
         }
 
         stage('Stage 2: Maven Build') {
-            steps {
-                sh 'mvn clean package -DskipTests'
-            }
-        }
+    steps {
+        sh '''
+        export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+        export PATH=$JAVA_HOME/bin:$PATH
+        java -version
+        mvn clean package -DskipTests
+        '''
+    }
+}
+
 
         stage('Stage 3: Build Docker Image') {
             steps {
