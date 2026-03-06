@@ -1,31 +1,36 @@
 package com.abhash.Calculator.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CalculatorService {
 
-    private static final Logger logger = LogManager.getLogger(CalculatorService.class);
-
-    public int add(int a, int b) {
-        logger.info("Performing Addition");
-        return a + b;
+    public double squareRoot(double x) {
+        return Math.sqrt(x);
     }
 
-    public int sub(int a, int b) {
-        logger.info("Performing Subtraction");
-        return a - b;
+    public long factorial(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("Number must be non-negative");
+        }
+
+        long result = 1;
+        for(int i = 1; i <= n; i++) {
+            result *= i;
+        }
+
+        return result;
     }
 
-    public int mul(int a, int b) {
-        logger.info("Performing Multiplication");
-        return a * b;
+    public double naturalLog(double x) {
+        if (x <= 0) {
+            throw new IllegalArgumentException("Input must be positive");
+        }
+
+        return Math.log(x);
     }
 
-    public int div(int a, int b) {
-        logger.info("Performing Division");
-        return a / b;
+    public double power(double base, double exponent) {
+        return Math.pow(base, exponent);
     }
 }

@@ -1,35 +1,33 @@
 package com.abhash.Calculator.controller;
 
 import com.abhash.Calculator.service.CalculatorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/calculator")
 public class CalculatorController {
 
-    private final CalculatorService calculatorService;
+    @Autowired
+    CalculatorService calculatorService;
 
-    public CalculatorController(CalculatorService calculatorService) {
-        this.calculatorService = calculatorService;
+    @GetMapping("/sqrt")
+    public double squareRoot(@RequestParam double x){
+        return calculatorService.squareRoot(x);
     }
 
-    @GetMapping("/add")
-    public int add(@RequestParam int a, @RequestParam int b) {
-        return calculatorService.add(a, b);
+    @GetMapping("/factorial")
+    public long factorial(@RequestParam int x){
+        return calculatorService.factorial(x);
     }
 
-    @GetMapping("/sub")
-    public int sub(@RequestParam int a, @RequestParam int b) {
-        return calculatorService.sub(a, b);
+    @GetMapping("/ln")
+    public double naturalLog(@RequestParam double x){
+        return calculatorService.naturalLog(x);
     }
 
-    @GetMapping("/mul")
-    public int mul(@RequestParam int a, @RequestParam int b) {
-        return calculatorService.mul(a, b);
-    }
-
-    @GetMapping("/div")
-    public int div(@RequestParam int a, @RequestParam int b) {
-        return calculatorService.div(a, b);
+    @GetMapping("/power")
+    public double power(@RequestParam double base, @RequestParam double exp){
+        return calculatorService.power(base, exp);
     }
 }
