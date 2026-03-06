@@ -1,27 +1,26 @@
 package com.abhash.Calculator;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import com.abhash.Calculator.service.CalculatorService;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
 public class CalculatorTest {
 
     private CalculatorService calculator;
 
-    @Before
-    public void setup(){
+    @BeforeEach
+    public void setUp() {
         calculator = new CalculatorService();
     }
 
     @Test
-    public void test_add(){
-        Assert.assertEquals(3, calculator.add(1,2));
+    public void testAdd() {
+        Assertions.assertEquals(3, calculator.add(1,2));
     }
 
     @Test
-    public void test_sub(){
-        Assert.assertEquals(1, calculator.sub(3,2));
+    public void testSub() {
+        Assertions.assertEquals(1, calculator.sub(3,2));
     }
-
 }
