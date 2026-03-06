@@ -15,18 +15,23 @@ pipeline {
         export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
         export PATH=$JAVA_HOME/bin:$PATH
         java -version
-        mvn clean package -DskipTests
+        mvn clean package
         '''
+    }
+}
+stage('Stage 3: Publish Test Results') {
+    steps {
+        junit '**/target/surefire-reports/*.xml'
     }
 }
 
 
-        stage('Stage 3: Build Docker Image') {
+        stage('Stage 4: Build Docker Image') {
             steps {
                 sh 'docker build -t abhashti/calculator:latest .'
             }
         }
-        stage('Stage 4: Push Docker Image to Docker Hub') {
+        stage('Stage 5: Push Docker Image to Docker Hub') {
     steps {
         withCredentials([usernamePassword(
             credentialsId: 'dockerhub-creds',
@@ -40,7 +45,7 @@ pipeline {
         }
     }
 }
-        stage('Stage 5: Cleanup Docker Images') {
+        stage('Stage 6: Cleanup Docker Images') {
     steps {
         sh '''
         docker rmi abhashti/calculator:latest || true
@@ -48,7 +53,7 @@ pipeline {
     }
 }
 
-stage('Step 6: Ansible Deployment') {
+stage('Step 7: Ansible Deployment') {
     steps {
         ansiblePlaybook becomeUser: null,
         colorized: true,
