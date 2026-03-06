@@ -53,7 +53,7 @@ stage('Stage 3: Publish Test Results') {
     }
 }
 
-stage('Step 7: Ansible Deployment') {
+stage('Step 7: Ansiblee Deployment') {
     steps {
         ansiblePlaybook becomeUser: null,
         colorized: true,
