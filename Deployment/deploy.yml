@@ -15,7 +15,7 @@
         docker rm $(docker ps -aq --filter "publish=8081") || true
       ignore_errors: yes
 
-    - name: Stop and remove containe by name Calculator
+    - name: Stop and remove container by name Calculator
       shell: |
         docker stop Calculator || true
         docker rm Calculator || true
