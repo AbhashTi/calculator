@@ -66,6 +66,26 @@ stage('Step 7: Ansiblee Deployment') {
     }
 }
 
+post {
+
+    success {
+        emailext(
+            subject: "SUCCESS: Calculator Pipeline #${BUILD_NUMBER}",
+            body: "The build completed successfully.\n\nBuild URL: ${BUILD_URL}",
+            to: "your-email@gmail.com"
+        )
+    }
+
+    failure {
+        emailext(
+            subject: "FAILED: Calculator Pipeline #${BUILD_NUMBER}",
+            body: "The pipeline failed.\n\nCheck Jenkins: ${BUILD_URL}",
+            to: "your-email@gmail.com"
+        )
+    }
+
+}
+
 
     }
 }
