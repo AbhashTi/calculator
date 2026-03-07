@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -123,10 +124,11 @@
         }
     </style>
 </head>
+
 <body>
     <div class="calculator-card">
         <h1>Scientific Calculator</h1>
-        
+
         <div class="form-group" id="input-x-group">
             <label for="input-x">Enter Number (x)</label>
             <input type="number" id="input-x" placeholder="e.g. 16">
@@ -152,7 +154,7 @@
         function showPower() {
             document.getElementById('input-exp-group').classList.remove('hidden');
             document.getElementById('input-x-group').querySelector('label').innerText = "Enter Base (x)";
-            
+
             const btn = event.target;
             btn.innerText = "Calculate Power";
             btn.onclick = () => calculate('power');
@@ -182,10 +184,18 @@
             try {
                 display.innerText = "Calculating...";
                 display.style.color = "var(--accent-color)";
-                
+
                 const response = await fetch(url);
+
+                if (!response.ok) {
+                    // Try to get error message from spring boot default error response
+                    const errorData = await response.json().catch(() => ({ message: "Server Error" }));
+                    display.innerText = `Error: ${errorData.message || "Invalid Operation"}`;
+                    display.style.color = "#ef4444";
+                    return;
+                }
+
                 const result = await response.text();
-                
                 display.innerText = `Result: ${result}`;
                 display.style.color = "var(--accent-color)";
             } catch (err) {
@@ -202,4 +212,5 @@
         }
     </script>
 </body>
+
 </html>
