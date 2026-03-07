@@ -9,12 +9,16 @@
         name: docker
         state: started
 
-    - name: Stop old container
-      shell: docker stop Calculator
+    - name: Stop and remove existing container on port 8081
+      shell: |
+        docker stop $(docker ps -q --filter "publish=8081") || true
+        docker rm $(docker ps -aq --filter "publish=8081") || true
       ignore_errors: yes
 
-    - name: Remove old container
-      shell: docker rm Calculator
+    - name: Stop and remove container by name Calculator
+      shell: |
+        docker stop Calculator || true
+        docker rm Calculator || true
       ignore_errors: yes
 
     - name: Running container
