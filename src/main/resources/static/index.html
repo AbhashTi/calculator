@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --button-hover: #0ea5e9;
+            --input-bg: #334155;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator-card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-color);
+            letter-spacing: -0.025em;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #94a3b8;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--input-bg);
+            border: 1px solid #475569;
+            border-radius: 0.5rem;
+            color: white;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        button {
+            padding: 0.75rem;
+            background-color: var(--input-bg);
+            border: 1px solid #475569;
+            border-radius: 0.5rem;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            transform: translateY(-1px);
+        }
+
+        button.exit {
+            grid-column: span 2;
+            background-color: #ef4444;
+            border-color: #dc2626;
+        }
+
+        button.exit:hover {
+            background-color: #dc2626;
+        }
+
+        #result-display {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(56, 189, 248, 0.1);
+            border-radius: 0.5rem;
+            border: 1px dashed var(--accent-color);
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            min-height: 1.5rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-card">
+        <h1>Scientific Calculator</h1>
+        
+        <div class="form-group" id="input-x-group">
+            <label for="input-x">Enter Number (x)</label>
+            <input type="number" id="input-x" placeholder="e.g. 16">
+        </div>
+
+        <div class="form-group hidden" id="input-exp-group">
+            <label for="input-exp">Enter Exponent (b)</label>
+            <input type="number" id="input-exp" placeholder="e.g. 3">
+        </div>
+
+        <div class="button-grid">
+            <button onclick="calculate('sqrt')">Square Root (√x)</button>
+            <button onclick="calculate('factorial')">Factorial (x!)</button>
+            <button onclick="calculate('ln')">Natural Log (ln x)</button>
+            <button onclick="showPower()">Power (x^b)</button>
+            <button class="exit" onclick="exitApp()">Exit</button>
+        </div>
+
+        <div id="result-display">Result will appear here</div>
+    </div>
+
+    <script>
+        function showPower() {
+            document.getElementById('input-exp-group').classList.remove('hidden');
+            document.getElementById('input-x-group').querySelector('label').innerText = "Enter Base (x)";
+            
+            const btn = event.target;
+            btn.innerText = "Calculate Power";
+            btn.onclick = () => calculate('power');
+        }
+
+        async function calculate(op) {
+            const x = document.getElementById('input-x').value;
+            const exp = document.getElementById('input-exp').value;
+            const display = document.getElementById('result-display');
+
+            if (x === "") {
+                display.innerText = "Error: Input required";
+                display.style.color = "#ef4444";
+                return;
+            }
+
+            let url = `/calculator/${op}?x=${x}`;
+            if (op === 'power') {
+                if (exp === "") {
+                    display.innerText = "Error: Exponent required";
+                    display.style.color = "#ef4444";
+                    return;
+                }
+                url = `/calculator/power?base=${x}&exp=${exp}`;
+            }
+
+            try {
+                display.innerText = "Calculating...";
+                display.style.color = "var(--accent-color)";
+                
+                const response = await fetch(url);
+                const result = await response.text();
+                
+                display.innerText = `Result: ${result}`;
+                display.style.color = "var(--accent-color)";
+            } catch (err) {
+                display.innerText = "Error connecting to server";
+                display.style.color = "#ef4444";
+            }
+        }
+
+        function exitApp() {
+            if (confirm("Close the calculator?")) {
+                window.close();
+                document.body.innerHTML = "<div style='text-align:center; padding: 2rem;'><h1>Calculator Closed</h1><p>You can close this tab now.</p></div>";
+            }
+        }
+    </script>
+</body>
+</html>
