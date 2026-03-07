@@ -65,6 +65,7 @@ stage('Step 7: Ansiblee Deployment') {
         sudoUser: null
     }
 }
+}
 
 post {
 
@@ -87,6 +88,6 @@ post {
 }
 
 
-    }
+
 }
 
