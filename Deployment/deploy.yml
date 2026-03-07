@@ -9,7 +9,7 @@
         name: docker
         state: started
 
-    - name: Stop old container
+    - name: Stop old containe
       shell: docker stop Calculator
       ignore_errors: yes
 
