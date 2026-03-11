@@ -67,24 +67,27 @@ stage('Step 7: Ansiblee Deployment') {
 }
 }
 
-post {
 
-    success {
-        emailext(
-            subject: "SUCCESS: Calculator Pipeline #${BUILD_NUMBER}",
-            body: "The build completed successfully.",
-            to: "abhashtiwari12@gmail.com"
-        )
+    post {
+        success {
+            archiveArtifacts artifacts: 'calculator_devops.log', fingerprint: true
+            emailext(
+                    subject: "SUCCESS: Calculator Pipeline #${BUILD_NUMBER}",
+                    body: "The build completed successfully. Attached is the application log file.",
+                    to: "abhashtiwari12@gmail.com",
+                    attachmentsPattern: 'calculator_devops.log'
+            )
+        }
+        failure {
+            archiveArtifacts artifacts: 'calculator_devops.log', fingerprint: true
+            emailext(
+                    subject: "FAILED: Calculator Pipeline #${BUILD_NUMBER}",
+                    body: "The pipeline failed. Attached is the application log file for debugging.",
+                    to: "abhashtiwari12@gmail.com",
+                    attachmentsPattern: 'calculator_devops.log'
+            )
+        }
     }
-
-    failure {
-        emailext(
-            subject: "FAILED: Calculator Pipeline #${BUILD_NUMBER}",
-            body: "The pipeline failed.",
-            to: "abhashtiwari12@gmail.com"
-        )
-    }
-
 }
 
 
