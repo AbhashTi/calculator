@@ -71,7 +71,7 @@ post {
 
     success {
         emailext(
-            subject: "SUCCESS: Calculator Pipeline #${BUILD_NUMBER}",
+            subject: "SUCCE: Calculator Pipeline #${BUILD_NUMBER}",
             body: "The build completed successfully.\n\nBuild URL: ${BUILD_URL}",
             to: "abhashtiwari12@gmail.com"
         )
