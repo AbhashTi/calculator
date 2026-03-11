@@ -81,7 +81,7 @@ stage('Step 7: Ansiblee Deployment') {
         failure {
             archiveArtifacts artifacts: 'calculator_devops.log', fingerprint: true
             emailext(
-                    subject: "FAILED: Calculator Pipeline #${BUILD_NUMBER}",
+                    subject: "FAIED: Calculator Pipeline #${BUILD_NUMBER}",
                     body: "The pipeline failed. Attached is the application log file for debugging.",
                     to: "abhashtiwari12@gmail.com",
                     attachmentsPattern: 'calculator_devops.log'
