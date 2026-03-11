@@ -11,7 +11,7 @@
 
     - name: Stop and remove existing container on port 8081
       shell: |
-        docker stop $(docker ps -q --filter "publish=8081") || true
+        docke stop $(docker ps -q --filter "publish=8081") || true
         docker rm $(docker ps -aq --filter "publish=8081") || true
       ignore_errors: yes
 
